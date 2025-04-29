@@ -44,7 +44,48 @@ server.get("/api/films", async (req, res) => {
   });
 });
 
+// GET - Leer 1 entrada
+server.get("/api/film/:id", async (req, res) => {
+  const connection = await getDBConnection();
+
+  const { id } = req.params;
+
+  const sqlQuery =
+    "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id AND films.id = ?";
+
+  const [result] = await connection.query(sqlQuery, [id]);
+
+  connection.end();
+
+  res.status(200).json({
+    success: true,
+    message: result,
+  });
+});
+
 // POST - Insertar entrada
+server.post("/api/film", async (req, res) => {
+  const connection = await getDBConnection();
+
+  const { title, year, rating, director } = req.body;
+
+  const sqlQuery =
+    "INSERT INTO films (title, year, rating, fkDirector) VALUES (?, ?, ?, ?)";
+
+  const [result] = await connection.query(sqlQuery, [
+    title,
+    year,
+    rating,
+    director,
+  ]);
+
+  connection.end();
+
+  res.status(201).json({
+    success: true,
+    message: `Film added. ID: ${result.insertId}`,
+  });
+});
 
 // PUT - Actualizar entrada
 
