@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
+const swaggerUI = require("swagger-ui-express");
+const swaggerConfig = require("./swagger.json");
 
 require("dotenv").config();
 
@@ -24,6 +26,8 @@ const port = process.env.PORT;
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+server.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 // ENDPOINTS
 
@@ -85,7 +89,7 @@ server.post("/api/film", async (req, res) => {
 });
 
 // PUT - Actualizar entrada
-server.put("/api/film/:id", async (req, res) => {
+server.put("/api/film/update/:id", async (req, res) => {
   const connection = await getDBConnection();
 
   const { id } = req.params;
@@ -110,7 +114,7 @@ server.put("/api/film/:id", async (req, res) => {
 });
 
 // DELETE - Eliminar entrada
-server.delete("/api/film/:id", async (req, res) => {
+server.delete("/api/film/delete/:id", async (req, res) => {
   const connection = await getDBConnection();
 
   const { id } = req.params;
