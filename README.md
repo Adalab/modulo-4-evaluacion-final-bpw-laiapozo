@@ -1,7 +1,8 @@
 # Evaluación final - Módulo 4: Node.js, Express y MySQL
 Este proyecto es el resultado de la evaluación final del Módulo 4 del bootcamp de programación web de Adalab. Se trata de una API REST desarrollada con Node.js y Express, que se conecta a una base de datos MySQL para gestionar información sobre películas y sus directores.
+👉 [https://modulo-4-evaluacion-final-bpw-laiapozo.onrender.com](https://modulo-4-evaluacion-final-bpw-laiapozo.onrender.com)
 
-## 🚀 Cómo arrancar el proyecto
+## 🚀 Cómo arrancar el proyecto en local
 1. Clona este repositorio:
    ```bash
    git clone https://github.com/Adalab/modulo-4-evaluacion-final-bpw-laiapozo.git
@@ -26,7 +27,7 @@ Este proyecto es el resultado de la evaluación final del Módulo 4 del bootcamp
 
 ## 📚 Documentación de la API
 Puedes consultar la configuración de la API accediendo a la documentación generada con Swagger en:
-👉 [http://localhost:3001/api-doc/](http://localhost:3001/api-doc/)
+👉 [https://modulo-4-evaluacion-final-bpw-laiapozo.onrender.com/api-doc/](https://modulo-4-evaluacion-final-bpw-laiapozo.onrender.com/api-doc/)
 
 ## 🔧 Tecnologías utilizadas
 
