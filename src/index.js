@@ -10,10 +10,11 @@ const server = express();
 
 async function getDBConnection() {
   const connection = await mysql.createConnection({
-    host: "172.20.32.1",
+    host: "films-evaluacion-4-adalab-api-films.e.aivencloud.com",
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: "films_db",
+    database: "defaultdb",
+    port: 21783,
   });
   connection.connect();
   return connection;

@@ -1,5 +1,4 @@
-CREATE DATABASE films_db;
-USE films_db;
+USE defaultdb;
 
 CREATE TABLE directors (
     id INT AUTO_INCREMENT PRIMARY KEY,
