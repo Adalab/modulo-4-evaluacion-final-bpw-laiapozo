@@ -122,26 +122,33 @@ server.put("/api/film/update/:id", async (req, res) => {
     const { id } = req.params;
     const { title, year, rating, director } = req.body;
 
-    const sqlQuery =
-      "UPDATE films SET title = ?, year = ?, rating = ?, fkDirector = ? WHERE id = ?";
-    const [result] = await connection.query(sqlQuery, [
-      title,
-      year,
-      rating,
-      director,
-      id,
-    ]);
-
-    if (result.affectedRows === 0) {
+    if (!title || !year || !rating || !director) {
       res.status(404).json({
         success: false,
-        message: "Error. We couldn't find the film you want to update",
+        message: "Bad params. Provide: 'title', 'year', 'rating', 'director'",
       });
     } else {
-      res.status(200).json({
-        success: true,
-        message: `Film updated. ID: ${id}`,
-      });
+      const sqlQuery =
+        "UPDATE films SET title = ?, year = ?, rating = ?, fkDirector = ? WHERE id = ?";
+      const [result] = await connection.query(sqlQuery, [
+        title,
+        year,
+        rating,
+        director,
+        id,
+      ]);
+
+      if (result.affectedRows === 0) {
+        res.status(404).json({
+          success: false,
+          message: "Error. We couldn't find the film you want to update",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `Film updated. ID: ${id}`,
+        });
+      }
     }
   }
 
