@@ -14,7 +14,7 @@
   "paths": {
     "/api/films": {
       "get": {
-        "summary": "Lista todas las películas",
+        "summary": "Obtener todas las películas",
         "responses": {
           "200": {
             "description": "Operación exitosa",
@@ -42,7 +42,7 @@
     },
     "/api/film/:id": {
       "get": {
-        "summary": "Obtiene detalles de una película específica",
+        "summary": "Obtener detalles de una película específica",
         "parameters": [
           {
             "name": "id",
@@ -74,13 +74,31 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/film": {
       "post": {
-        "summary": "Inserta una nueva película",
+        "summary": "Insertar una nueva película",
         "requestBody": {
           "required": true,
           "content": {
@@ -109,13 +127,31 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/film/update/:id": {
       "put": {
-        "summary": "Modifica una película",
+        "summary": "Modificar una película",
         "parameters": [
           {
             "name": "id",
@@ -154,13 +190,31 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/film/delete/:id": {
       "delete": {
-        "summary": "Elimina una película",
+        "summary": "Eliminar una película",
         "parameters": [
           {
             "name": "id",
@@ -174,6 +228,24 @@
         "responses": {
           "200": {
             "description": "Película eliminada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Operación sin éxito",
             "content": {
               "application/json": {
                 "schema": {
