@@ -24,3 +24,28 @@ const port = process.env.PORT;
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+// ENDPOINTS
+
+// GET - Leer entradas
+server.get("/api/films", async (req, res) => {
+  const connection = await getDBConnection();
+
+  const sqlQuery =
+    "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id";
+
+  const [result] = await connection.query(sqlQuery);
+
+  connection.end();
+
+  res.status(200).json({
+    success: true,
+    message: result,
+  });
+});
+
+// POST - Insertar entrada
+
+// PUT - Actualizar entrada
+
+// DELETE - Eliminar entrada

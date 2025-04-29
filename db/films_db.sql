@@ -30,3 +30,5 @@ VALUES
 	('Juno', 2007, 7.4, 3),
     ('Lady Bird', 2017, 7.4, 4),
     ('Barbie', 2023, 7.0, 4);
+    
+SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id;
