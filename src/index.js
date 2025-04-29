@@ -23,6 +23,8 @@ async function getDBConnection() {
 server.use(cors());
 server.use(express.json());
 
+const staticServer = "./src/public-react";
+
 const port = process.env.PORT;
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
