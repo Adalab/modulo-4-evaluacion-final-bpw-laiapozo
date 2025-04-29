@@ -36,3 +36,7 @@ SELECT films.id, films.title, films.year, films.rating, directors.name AS direct
 SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id AND films.id = 3;
 
 INSERT INTO films (title, year, rating, fkDirector) VALUES ('Gladiator', 2000, 8.5, 2);
+
+UPDATE films SET title = 'Pequeña Miss Sunshine', year = 2006, rating = 7.8, fkDirector = 1 WHERE id = 1;
+
+DELETE FROM films WHERE id = 7;

@@ -33,7 +33,6 @@ server.get("/api/films", async (req, res) => {
 
   const sqlQuery =
     "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id";
-
   const [result] = await connection.query(sqlQuery);
 
   connection.end();
@@ -52,7 +51,6 @@ server.get("/api/film/:id", async (req, res) => {
 
   const sqlQuery =
     "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id AND films.id = ?";
-
   const [result] = await connection.query(sqlQuery, [id]);
 
   connection.end();
@@ -71,7 +69,6 @@ server.post("/api/film", async (req, res) => {
 
   const sqlQuery =
     "INSERT INTO films (title, year, rating, fkDirector) VALUES (?, ?, ?, ?)";
-
   const [result] = await connection.query(sqlQuery, [
     title,
     year,
@@ -88,5 +85,43 @@ server.post("/api/film", async (req, res) => {
 });
 
 // PUT - Actualizar entrada
+server.put("/api/film/:id", async (req, res) => {
+  const connection = await getDBConnection();
+
+  const { id } = req.params;
+  const { title, year, rating, director } = req.body;
+
+  const sqlQuery =
+    "UPDATE films SET title = ?, year = ?, rating = ?, fkDirector = ? WHERE id = ?";
+  const [result] = await connection.query(sqlQuery, [
+    title,
+    year,
+    rating,
+    director,
+    id,
+  ]);
+
+  connection.end();
+
+  res.status(200).json({
+    success: true,
+    message: `Film updated. ID: ${id}`,
+  });
+});
 
 // DELETE - Eliminar entrada
+server.delete("/api/film/:id", async (req, res) => {
+  const connection = await getDBConnection();
+
+  const { id } = req.params;
+
+  const sqlQuery = "DELETE FROM films WHERE id = ?";
+  const [result] = await connection.query(sqlQuery, [id]);
+
+  connection.end();
+
+  res.status(200).json({
+    success: true,
+    message: `Film deleted. ID: ${id}`,
+  });
+});
