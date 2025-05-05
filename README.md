@@ -24,12 +24,11 @@ Puedes consultar la configuración de la API accediendo a la documentación gene
    DB_PASSWORD=tu_contraseña
    PORT=3001
    ```
-4. Arranca el servidor:
+4. Arranca el servidor (para que funcione, es necesario tener instalado nodemon):
 
    ```bash
    npm run dev
    ```
-5. La API estará disponible en `http://localhost:3001`.
 
 ## 🔧 Tecnologías utilizadas
 - **Node.js**
