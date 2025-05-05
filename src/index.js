@@ -34,147 +34,207 @@ server.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 // GET - Leer entradas
 server.get("/api/films", async (req, res) => {
-  const connection = await getDBConnection();
+  let connection;
 
-  const sqlQuery =
-    "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id";
-  const [result] = await connection.query(sqlQuery);
+  try {
+    connection = await getDBConnection();
 
-  connection.end();
+    const sqlQuery =
+      "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id";
+    const [result] = await connection.query(sqlQuery);
 
-  res.status(200).json({
-    success: true,
-    message: result,
-  });
-});
-
-// GET - Leer 1 entrada
-server.get("/api/film/:id", async (req, res) => {
-  const connection = await getDBConnection();
-
-  const { id } = req.params;
-
-  const sqlQuery =
-    "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id AND films.id = ?";
-  const [result] = await connection.query(sqlQuery, [id]);
-
-  connection.end();
-
-  if (result.length === 0) {
-    res.status(404).json({
-      success: false,
-      message: "Error. We couldn't find your film",
-    });
-  } else {
     res.status(200).json({
       success: true,
       message: result,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal error. Try again later",
+    });
+  } finally {
+    if (connection) {
+      connection.end();
+    }
+  }
+});
+
+// GET - Leer 1 entrada
+server.get("/api/film/:id", async (req, res) => {
+  let connection;
+
+  try {
+    connection = await getDBConnection();
+
+    const { id } = req.params;
+
+    const sqlQuery =
+      "SELECT films.id, films.title, films.year, films.rating, directors.name AS director FROM films, directors WHERE films.fkDirector = directors.id AND films.id = ?";
+    const [result] = await connection.query(sqlQuery, [id]);
+
+    if (result.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: "Error. We couldn't find your film",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: result,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal error. Try again later",
+    });
+  } finally {
+    if (connection) {
+      connection.end();
+    }
   }
 });
 
 // POST - Insertar entrada
 server.post("/api/film", async (req, res) => {
-  const connection = await getDBConnection();
+  let connection;
 
-  if (!req.body) {
-    res.status(404).json({
-      success: false,
-      message: "Provide the params",
-    });
-  } else {
-    const { title, year, rating, director } = req.body;
+  try {
+    connection = await getDBConnection();
 
-    if (!title || !year || !rating || !director) {
-      res.status(404).json({
+    if (!req.body || Object.keys(req.body).length === 0) {
+      res.status(400).json({
         success: false,
-        message: "Bad params. Provide: 'title', 'year', 'rating', 'director'",
+        message: "Provide the params",
       });
     } else {
-      const sqlQuery =
-        "INSERT INTO films (title, year, rating, fkDirector) VALUES (?, ?, ?, ?)";
-      const [result] = await connection.query(sqlQuery, [
-        title,
-        year,
-        rating,
-        director,
-      ]);
-      res.status(201).json({
-        success: true,
-        message: `Film added. ID: ${result.insertId}`,
-      });
-    }
+      const { title, year, rating, director } = req.body;
 
-    connection.end();
+      if (!title || !year || !rating || !director) {
+        res.status(400).json({
+          success: false,
+          message: "Bad params. Provide: 'title', 'year', 'rating', 'director'",
+        });
+      } else {
+        const sqlQuery =
+          "INSERT INTO films (title, year, rating, fkDirector) VALUES (?, ?, ?, ?)";
+        const [result] = await connection.query(sqlQuery, [
+          title,
+          year,
+          rating,
+          director,
+        ]);
+        res.status(201).json({
+          success: true,
+          message: `Film added. ID: ${result.insertId}`,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal error. Try again later",
+    });
+  } finally {
+    if (connection) {
+      connection.end();
+    }
   }
 });
 
 // PUT - Actualizar entrada
 server.put("/api/film/update/:id", async (req, res) => {
-  const connection = await getDBConnection();
+  let connection;
 
-  if (!req.body) {
-    res.status(404).json({
-      success: false,
-      message: "Provide the params",
-    });
-  } else {
-    const { id } = req.params;
-    const { title, year, rating, director } = req.body;
+  try {
+    connection = await getDBConnection();
 
-    if (!title || !year || !rating || !director) {
-      res.status(404).json({
+    if (!req.body || Object.keys(req.body).length === 0) {
+      res.status(400).json({
         success: false,
-        message: "Bad params. Provide: 'title', 'year', 'rating', 'director'",
+        message: "Provide the params",
       });
     } else {
-      const sqlQuery =
-        "UPDATE films SET title = ?, year = ?, rating = ?, fkDirector = ? WHERE id = ?";
-      const [result] = await connection.query(sqlQuery, [
-        title,
-        year,
-        rating,
-        director,
-        id,
-      ]);
+      const { id } = req.params;
+      const { title, year, rating, director } = req.body;
 
-      if (result.affectedRows === 0) {
-        res.status(404).json({
+      if (!title || !year || !rating || !director) {
+        res.status(400).json({
           success: false,
-          message: "Error. We couldn't find the film you want to update",
+          message: "Bad params. Provide: 'title', 'year', 'rating', 'director'",
         });
       } else {
-        res.status(200).json({
-          success: true,
-          message: `Film updated. ID: ${id}`,
-        });
+        const sqlQuery =
+          "UPDATE films SET title = ?, year = ?, rating = ?, fkDirector = ? WHERE id = ?";
+        const [result] = await connection.query(sqlQuery, [
+          title,
+          year,
+          rating,
+          director,
+          id,
+        ]);
+
+        if (result.affectedRows === 0) {
+          res.status(404).json({
+            success: false,
+            message: "Error. We couldn't find the film you want to update",
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            message: `Film updated. ID: ${id}`,
+          });
+        }
       }
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal error. Try again later",
+    });
+  } finally {
+    if (connection) {
+      connection.end();
+    }
   }
-
-  connection.end();
 });
 
 // DELETE - Eliminar entrada
 server.delete("/api/film/delete/:id", async (req, res) => {
-  const connection = await getDBConnection();
+  let connection;
 
-  const { id } = req.params;
+  try {
+    connection = await getDBConnection();
 
-  const sqlQuery = "DELETE FROM films WHERE id = ?";
-  const [result] = await connection.query(sqlQuery, [id]);
+    const { id } = req.params;
 
-  connection.end();
+    const sqlQuery = "DELETE FROM films WHERE id = ?";
+    const [result] = await connection.query(sqlQuery, [id]);
 
-  if (result.affectedRows === 0) {
-    res.status(404).json({
+    if (result.affectedRows === 0) {
+      res.status(404).json({
+        success: false,
+        message: "Error. We couldn't find the film you want to delete",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: `Film deleted. ID: ${id}`,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
       success: false,
-      message: "Error. We couldn't find the film you want to delete",
+      message: "Internal error. Try again later",
     });
-  } else {
-    res.status(200).json({
-      success: true,
-      message: `Film deleted. ID: ${id}`,
-    });
+  } finally {
+    if (connection) {
+      connection.end();
+    }
   }
 });
