@@ -36,6 +36,24 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -92,6 +110,24 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -110,7 +146,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Película insertada exitosamente",
             "content": {
               "application/json": {
@@ -128,7 +164,25 @@
               }
             }
           },
-          "404": {
+          "400": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
             "description": "Operación sin éxito",
             "content": {
               "application/json": {
@@ -208,6 +262,42 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -245,6 +335,24 @@
             }
           },
           "404": {
+            "description": "Operación sin éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
             "description": "Operación sin éxito",
             "content": {
               "application/json": {
